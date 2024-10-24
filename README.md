@@ -1,40 +1,61 @@
-1.안녕하세요.
-
-
-## Jetson Nano title # * 2
-
---- hype or star * 3 is seperate
-
-1. anything
-2. everything but
-3. All i want is hitting the sack
-
-* christmas
-
-* boring
-
-+ starving
-
-## Jetson Nano YOLO V8 link
-
 <https://github.com/jetsonmom/yoloV8_jetson4GB?tab=readme-ov-file>
 
-***
+위 링크의 설명에 따라 아나콘다와 yolo v8 설치 및 환경 설정한다.
+
+yolo 실행을 위해서는 line88 def predict 코드를 수정해야 한다.
+
+```
+gedit  detectY8.py
+```
+
+```
+def predict(cfg=DEFAULT_CFG, use_python=False):
+   
+    brtsp = True
+	
+    if brtsp: 
+		#cfg.source ='https://www.youtube.com/watch?v=yTIQMnnaBZo'
+        cfg.source ='rtsp://admin:satech1234@192.168.0.151:554/udp/av0_0'
+       
+    else:
+        cfg.source = '/home/dli/Jetson-Nano2/V8'
+        
+    cfg.imgsz = 640
+    cfg.show    = True    
+    cfg.iou     = 0.45
+    cfg.conf    = 0.15
+    cfg.data    = "coco128_kor.yaml"
+    cfg.model   = 'yolov8n.pt'
+
+    source = cfg.source if cfg.source is not None else ROOT / 'assets' if (ROOT / 'assets').exists() \
+        else 'https://ultralytics.com/images/bus.jpg'
+
+    args = dict(model=cfg.model, source=source)
+    if use_python:
+        from ultralytics import YOLO
+        YOLO(cfg.model)(**args)(cfg)
+    else:
+        predictor = DetectionPredictor(overrides=args)
+        predictor.predict_cli()
+```
+
+brtsp = True 를 False 로 수정이후에 실행한다.
+
+```
+(yolo) yolo@yolo-desktop:~/Jetson-Nano2/V8$ python detectY8.py
+```
 
 ---
 
-dli@dli-desktop:~$ cd Jetson-Nano2/
+# 실행
 
-dli@dli:~/Jetson-Nano2$ cd V8
+![Screenshot from 2024-10-24 19-00-17](https://github.com/user-attachments/assets/ed5e8708-2f9a-47ec-b3f8-fc5aff0b150e)
 
-dli@dli:~/Jetson-Nano2/V8$ pip install ultralytics
 
-dli@dli:~/Jetson-Nano2/V8$ pip install -r requirements.txt 
 
-dli@jdli:~/Jetson-Nano2/V8$ pip install ffmpeg-python
 
-dli@dli:~/Jetson-Nano2$ sudo apt install tree
 
-dli@jdli:~/Jetson-Nano2$treee -L 2
+'/home/dli/Jetson-Nano2/V8'
 
-![Screenshot from 2024-10-24 15-40-51](https://github.com/user-attachments/assets/618e5cc6-6061-4d9e-bb5d-8e44949f9f5c)
+
+
