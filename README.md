@@ -5,6 +5,8 @@
 
 yolo 실행을 위해서는 line88 def predict 코드를 수정해야 한다.
 
+코드 불러오기는 아래 명령어
+
 ```
 gedit  detectY8.py
 ```
