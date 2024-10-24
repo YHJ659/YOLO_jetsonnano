@@ -11,6 +11,8 @@ yolo 실행을 위해서는 line88 def predict 코드를 수정해야 한다.
 gedit  detectY8.py
 ```
 
+아래 코드를 수정한다.
+
 ```
 def predict(cfg=DEFAULT_CFG, use_python=False):
    
